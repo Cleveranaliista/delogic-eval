@@ -43,7 +43,7 @@ public class PromotionService {
                         return false;
                     }
 
-                    // Filtra se a data do evento ainda é futura ou >= contextDate
+                    // Filtra se a data do evento é maior ou igual à data fornecida (contextDate)
                     LocalDate eventDate = event.getEventDate();
                     return !eventDate.isBefore(contextDate);
                 })

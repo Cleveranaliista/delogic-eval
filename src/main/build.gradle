@@ -1,0 +1,31 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.flywaydb.flyway' version '9.22.0'  // ou a versão que você preferir
+    id 'java'
+}
+
+group = 'com.example'
+version = '1.0.0'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java'  // Para a conexão com o MySQL
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Flyway Core (garante que o Flyway será integrado corretamente)
+    implementation 'org.flywaydb:flyway-core:9.22.0'
+}
+
+flyway {
+    url = 'jdbc:mysql://localhost:3306/delogic_eval?createDatabaseIfNotExist=true'  // Garantir que o banco será criado caso não exista
+    user = 'root'
+    password = '161709'
+    locations = ['classpath:db/migration']  // Localização dos arquivos de migração
+}

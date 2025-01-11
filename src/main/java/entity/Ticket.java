@@ -1,5 +1,6 @@
 package com.example.delogic_eval.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,7 +22,7 @@ public class Ticket {
     public Long getId() {
         return id;
     }
-
+    @JsonIgnore
     public Event getEvent() {
         return event;
     }
