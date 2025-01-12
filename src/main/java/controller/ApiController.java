@@ -23,9 +23,14 @@ public class ApiController {
 
     @GetMapping("/events")
     public List<com.example.delogic_eval.entity.Event> getAllEvents() {
-        // Retorna todos os eventos
-        return eventRepository.findAll();
+        try {
+            return eventRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
+
 
     @GetMapping("/tickets")
     public List<com.example.delogic_eval.entity.Ticket> getPromotionalTickets(@RequestParam String date,

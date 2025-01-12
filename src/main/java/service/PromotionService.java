@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,9 @@ public class PromotionService {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    // Formato de data para conversão de Strings
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * Retorna ingressos "promocionais" (por exemplo, ainda não vendidos)
@@ -33,18 +37,26 @@ public class PromotionService {
                 .filter(ticket -> {
                     Event event = ticket.getEvent();
 
-                    // Filtra por categoria, se informado
+                    // Converte a data do evento, se ela for armazenada como String
+                    LocalDate eventDate;
+                    try {
+                        eventDate = LocalDate.parse(event.getEventDate().toString(), FORMATTER);
+                    } catch (Exception e) {
+                        // Handle parsing errors ou filtre eventos inválidos
+                        return false;
+                    }
+
+                    // Filtra por categoria
                     if (categoryId != null && !categoryId.equals(event.getCategoryId())) {
                         return false;
                     }
 
-                    // Filtra por cidade, se informado
+                    // Filtra por cidade
                     if (city != null && !city.isBlank() && !city.equalsIgnoreCase(event.getCity())) {
                         return false;
                     }
 
-                    // Filtra se a data do evento é maior ou igual à data fornecida (contextDate)
-                    LocalDate eventDate = event.getEventDate();
+                    // Filtra pela data do evento
                     return !eventDate.isBefore(contextDate);
                 })
                 .collect(Collectors.toList());

@@ -34,14 +34,14 @@ CREATE TABLE venues (
 CREATE TABLE categories (
     category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     category_group VARCHAR(255),
-    category_name VARCHAR(255),
+    category_name VARCHAR(255) NOT NULL,
     category_description TEXT
 );
 
 -- Tabela de Dates
 CREATE TABLE dates (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    calendar_date DATE,
+    calendar_date DATE NOT NULL,
     day INT,
     week INT,
     month INT,
@@ -56,8 +56,10 @@ CREATE TABLE events (
     venue_id BIGINT,
     category_id BIGINT,
     date_id BIGINT,
-    event_name VARCHAR(255),
-    event_start_time DATETIME,
+    event_name VARCHAR(255) NOT NULL,
+    event_start_time DATETIME NOT NULL,
+    city VARCHAR(255),
+    event_date DATE,
     FOREIGN KEY (venue_id) REFERENCES venues(venue_id),
     FOREIGN KEY (category_id) REFERENCES categories(category_id),
     FOREIGN KEY (date_id) REFERENCES dates(id)
@@ -95,4 +97,12 @@ CREATE TABLE sales (
     FOREIGN KEY (buyer_id) REFERENCES users(user_id),
     FOREIGN KEY (event_id) REFERENCES events(event_id),
     FOREIGN KEY (date_id) REFERENCES dates(id)
+);
+
+-- Tabela de Tickets
+CREATE TABLE tickets (
+    ticket_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    event_id BIGINT,
+    sold BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
