@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-
-    // Buscar todos os tickets ainda não vendidos
     List<Ticket> findBySoldFalse();
+    List<Ticket> findByEvent_EventId(Long eventId);
 }

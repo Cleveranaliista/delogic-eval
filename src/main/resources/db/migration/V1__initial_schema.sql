@@ -99,10 +99,13 @@ CREATE TABLE sales (
     FOREIGN KEY (date_id) REFERENCES dates(id)
 );
 
--- Tabela de Tickets
+-- Criação da tabela de tickets
 CREATE TABLE tickets (
     ticket_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    event_id BIGINT,
+    event_id BIGINT NOT NULL,
     sold BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (event_id) REFERENCES events(event_id)
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Índice opcional para melhorar a performance
+CREATE INDEX idx_event_id ON tickets(event_id);

@@ -1,39 +1,38 @@
 package com.example.delogic_eval.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
 public class Event {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long eventId;
 
-    @Column(name = "venue_id")
-    private Long venueId;
+    @Column(name = "event_name", nullable = false)
+    private String eventName;
+
+    @Column(name = "event_start_time", nullable = false)
+    private String eventStartTime;
+
+    @Column(name = "city", nullable = false)
+    private String city;
+
+    @Column(name = "event_date", nullable = false)
+    private LocalDate eventDate;
 
     @Column(name = "category_id")
     private Long categoryId;
 
-    @Column(name = "date_id")
-    private Long dateId;
-
-    @Column(name = "event_name")
-    private String eventName;
-
-    @Column(name = "event_start_time")
-    private String eventStartTime;
-
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "event_date")
-    private LocalDate eventDate;
+    // Relacionamento com Tickets
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Ticket> tickets;
 
     // Getters e Setters
     public Long getEventId() {
@@ -42,30 +41,6 @@ public class Event {
 
     public void setEventId(Long eventId) {
         this.eventId = eventId;
-    }
-
-    public Long getVenueId() {
-        return venueId;
-    }
-
-    public void setVenueId(Long venueId) {
-        this.venueId = venueId;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Long getDateId() {
-        return dateId;
-    }
-
-    public void setDateId(Long dateId) {
-        this.dateId = dateId;
     }
 
     public String getEventName() {
@@ -98,5 +73,21 @@ public class Event {
 
     public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

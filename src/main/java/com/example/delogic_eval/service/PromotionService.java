@@ -1,7 +1,5 @@
 package com.example.delogic_eval.service;
 
-import com.example.delogic_eval.entity.Event;
-import com.example.delogic_eval.entity.Ticket;
 import com.example.delogic_eval.repository.EventRepository;
 import com.example.delogic_eval.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +26,14 @@ public class PromotionService {
      * Retorna ingressos "promocionais" (por exemplo, ainda não vendidos)
      * com base na data de hoje ou data de contexto, categoriaId e cidade.
      */
-    public List<Ticket> getPromotionalTickets(LocalDate contextDate, Long categoryId, String city) {
+    public List<com.example.delogic_eval.entity.Ticket> getPromotionalTickets(LocalDate contextDate, Long categoryId, String city) {
         // Buscar tickets não vendidos
-        List<Ticket> unsoldTickets = ticketRepository.findBySoldFalse();
+        List<com.example.delogic_eval.entity.Ticket> unsoldTickets = ticketRepository.findBySoldFalse();
 
         // Filtrar baseando-se em evento e parâmetros
         return unsoldTickets.stream()
                 .filter(ticket -> {
-                    Event event = ticket.getEvent();
+                    com.example.delogic_eval.entity.Event event = ticket.getEvent();
 
                     // Converte a data do evento, se ela for armazenada como String
                     LocalDate eventDate;
