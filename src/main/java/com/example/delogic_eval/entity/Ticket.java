@@ -1,13 +1,12 @@
 package com.example.delogic_eval.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tickets")
 public class Ticket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ticket_id")
@@ -18,9 +17,11 @@ public class Ticket {
     @JsonBackReference
     private Event event;
 
-
     @Column(nullable = false)
     private Boolean sold;
+
+    @Column(nullable = false) // Adicionando o campo `name`
+    private String name;
 
     // Getters e Setters
     public Long getId() {
@@ -45,5 +46,13 @@ public class Ticket {
 
     public void setSold(Boolean sold) {
         this.sold = sold;
+    }
+
+    public String getName() { // Getter para `name`
+        return name;
+    }
+
+    public void setName(String name) { // Setter para `name`
+        this.name = name;
     }
 }
