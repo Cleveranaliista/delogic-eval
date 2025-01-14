@@ -1,4 +1,3 @@
--- Tabela de Usuários (Users)
 CREATE TABLE users (
     user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -21,7 +20,6 @@ CREATE TABLE users (
     musicals BOOLEAN DEFAULT FALSE
 );
 
--- Tabela de Locais (Venues)
 CREATE TABLE venues (
     venue_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     venue_name VARCHAR(255) NOT NULL,
@@ -30,7 +28,6 @@ CREATE TABLE venues (
     seating_capacity INT
 );
 
--- Tabela de Categorias (Categories)
 CREATE TABLE categories (
     category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     category_group VARCHAR(255),
@@ -38,7 +35,6 @@ CREATE TABLE categories (
     category_description TEXT
 );
 
--- Tabela de Datas (Dates)
 CREATE TABLE dates (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     calendar_date DATE NOT NULL,
@@ -50,7 +46,6 @@ CREATE TABLE dates (
     holiday_flag BOOLEAN DEFAULT FALSE
 );
 
--- Tabela de Eventos (Events)
 CREATE TABLE events (
     event_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     venue_id BIGINT NOT NULL,
@@ -65,7 +60,6 @@ CREATE TABLE events (
     FOREIGN KEY (date_id) REFERENCES dates(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Tabela de Listagens (Listings)
 CREATE TABLE listings (
     listing_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     seller_id BIGINT NOT NULL,
@@ -80,7 +74,6 @@ CREATE TABLE listings (
     FOREIGN KEY (date_id) REFERENCES dates(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Tabela de Vendas (Sales)
 CREATE TABLE sales (
     sale_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     listing_id BIGINT NOT NULL,
@@ -99,16 +92,14 @@ CREATE TABLE sales (
     FOREIGN KEY (date_id) REFERENCES dates(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Tabela de Ingressos (Tickets)
 CREATE TABLE tickets (
     ticket_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     event_id BIGINT NOT NULL,
-    name VARCHAR(255), -- Nome do ingresso (se necessário)
+    name VARCHAR(255),
     sold BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Índices para melhorar a performance
 CREATE INDEX idx_event_id ON tickets(event_id);
 CREATE INDEX idx_listing_event_date ON listings(event_id, date_id);
 CREATE INDEX idx_sale_event_date ON sales(event_id, date_id);

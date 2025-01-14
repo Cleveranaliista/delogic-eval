@@ -29,7 +29,6 @@ public class Event {
     @Column(name = "category_id")
     private Long categoryId;
 
-    // Relacionamento com Tickets
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Ticket> tickets;

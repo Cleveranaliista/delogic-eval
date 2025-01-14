@@ -27,34 +27,27 @@ public class PromotionService {
      * com base na data de hoje ou data de contexto, categoriaId e cidade.
      */
     public List<com.example.delogic_eval.entity.Ticket> getPromotionalTickets(LocalDate contextDate, Long categoryId, String city) {
-        // Buscar tickets não vendidos
-        List<com.example.delogic_eval.entity.Ticket> unsoldTickets = ticketRepository.findBySoldFalse();
+          List<com.example.delogic_eval.entity.Ticket> unsoldTickets = ticketRepository.findBySoldFalse();
 
-        // Filtrar baseando-se em evento e parâmetros
         return unsoldTickets.stream()
                 .filter(ticket -> {
                     com.example.delogic_eval.entity.Event event = ticket.getEvent();
 
-                    // Converte a data do evento, se ela for armazenada como String
                     LocalDate eventDate;
                     try {
                         eventDate = LocalDate.parse(event.getEventDate().toString(), FORMATTER);
                     } catch (Exception e) {
-                        // Handle parsing errors ou filtre eventos inválidos
-                        return false;
+                      return false;
                     }
 
-                    // Filtra por categoria
                     if (categoryId != null && !categoryId.equals(event.getCategoryId())) {
                         return false;
                     }
 
-                    // Filtra por cidade
                     if (city != null && !city.isBlank() && !city.equalsIgnoreCase(event.getCity())) {
                         return false;
                     }
 
-                    // Filtra pela data do evento
                     return !eventDate.isBefore(contextDate);
                 })
                 .collect(Collectors.toList());
